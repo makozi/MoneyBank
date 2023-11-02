@@ -1,0 +1,45 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Batch Transaction Upload Via Excel";
+}
+
+<h3 style="margin-bottom: 40px; margin-top:40px;">Batch Transaction Upload Via Excel</h3>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="excelFile" id="excelFile" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+    <button class="btn btn-primary" type="submit">Upload & Process</button>
+</form>
+
+@if (Model.TransactionRecords != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Srl #</th>
+                <th>Debit Account</th>
+                <th>Credit Account</th>
+                <th>Amount</th>
+                <th>Narration</th>
+                <th>Valid</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.TransactionRecords)
+            {
+                <tr>
+                    <td>@record.SerialNumber</td>
+                    <td>@record.DebitAccount</td>
+                    <td>@record.CreditAccount</td>
+                    <td>@record.Amount.ToString("C")</td>
+                    <td>@record.Narration</td>
+                    <td>@(record.IsValid ? "Valid" : "Invalid")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section scripts {
+    <script src="_content/Microsoft.AspNetCore.Components.Web.Extensions/script.js"></script>
+}
